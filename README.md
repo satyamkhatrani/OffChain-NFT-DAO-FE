@@ -10,11 +10,11 @@ _Below is an example of how you can instruct your audience on installing and set
 
 1. Clone the repo
    ```sh
-   git clone https://github.com/your_username_/Project-Name.git
+   git clone https://github.com/satyamkhatrani/OffChain-NFT-DAO-FE.git
    ```
-2. Install NPM packages
+2. Go to Directory and Install NPM packages
    ```sh
-   npm install
+   cd OffChain-NFT-DAO-FE && npm install
    ```
 3. Enter your API_URL in `apiBase.js`, that located at `src/constants/`
    ```js
