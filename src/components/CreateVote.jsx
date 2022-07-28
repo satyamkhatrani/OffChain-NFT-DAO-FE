@@ -65,7 +65,6 @@ const CreateVote = () => {
     };
 
     axios(config).then(function (resp) {
-      console.log('resp from Create Proposal: ', resp);
       if (resp.data.status) {
         navigate('/');
       }

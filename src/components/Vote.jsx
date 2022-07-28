@@ -1,89 +1,35 @@
 import { ConnectButton } from "@rainbow-me/rainbowkit";
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { useAccount } from "wagmi";
 import VoteModal from "./VoteModal";
-import {} from "lodash/array"
+import _ from "lodash/collection";
 
-const VoteData = [
-  {
-    image: "https://mdbootstrap.com/img/new/standard/city/047.jpg",
-    address: "0x1e1E768df38eEe85813E93821113c9dd77Bd1111",
-    vote: "I’d stake Cake for Carbo pool",
-    value: "8.2 CAKEVO...",
-  },
-  {
-    image: "https://mdbootstrap.com/img/new/standard/city/047.jpg",
-    address: "0x1e1E768df38eEe85813E93821113c9dd77Bd1111",
-    vote: "I’d stake Cake for Carbo pool",
-    value: "8.2 CAKEVO...",
-  },
-  {
-    image: "https://mdbootstrap.com/img/new/standard/city/047.jpg",
-    address: "0x1e1E768df38eEe85813E93821113c9dd77Bd1111",
-    vote: "I’d stake Cake for Carbo pool",
-    value: "8.2 CAKEVO...",
-  },
-  {
-    image: "https://mdbootstrap.com/img/new/standard/city/047.jpg",
-    address: "0x1e1E768df38eEe85813E93821113c9dd77Bd1111",
-    vote: "I’d stake Cake for Carbo pool",
-    value: "8.2 CAKEVO...",
-  },
-  {
-    image: "https://mdbootstrap.com/img/new/standard/city/047.jpg",
-    address: "0x1e1E768df38eEe85813E93821113c9dd77Bd1111",
-    vote: "I’d stake Cake for Carbo pool",
-    value: "8.2 CAKEVO...",
-  },
-  {
-    image: "https://mdbootstrap.com/img/new/standard/city/047.jpg",
-    address: "0x1e1E768df38eEe85813E93821113c9dd77Bd1111",
-    vote: "I’d stake Cake for Carbo pool",
-    value: "8.2 CAKEVO...",
-  },
-  {
-    image: "https://mdbootstrap.com/img/new/standard/city/047.jpg",
-    address: "0x1e1E768df38eEe85813E93821113c9dd77Bd1111",
-    vote: "I’d stake Cake for Carbo pool",
-    value: "8.2 CAKEVO...",
-  },
-  {
-    image: "https://mdbootstrap.com/img/new/standard/city/047.jpg",
-    address: "0x1e1E768df38eEe85813E93821113c9dd77Bd1111",
-    vote: "I’d stake Cake for Carbo pool",
-    value: "8.2 CAKEVO...",
-  },
-  {
-    image: "https://mdbootstrap.com/img/new/standard/city/047.jpg",
-    address: "0x1e1E768df38eEe85813E93821113c9dd77Bd1111",
-    vote: "I’d stake Cake for Carbo pool",
-    value: "8.2 CAKEVO...",
-  },
-];
-
-const VoteFor = [
-  {
-    voteFor: "I would stake cake for carbo pool",
-  },
-  {
-    voteFor: " I would add liquidity to carbo farm",
-  },
-];
 const Vote = (props) => {
   const { address, isConnected } = useAccount();
   const [selectedVote, setSelectVote] = useState();
   const [openVoteModal, setOpenVoteModal] = useState(false);
+  const [alreadyVoted, setAlreadyVoted] = useState(true);
 
-  const { data } = props; 
-  console.log('data: ', data);
+  const { data } = props;
 
   const init = async () => {
-    // data.proposal.voteSignature
+    const userVote = _.find(data.proposal.voteSignature, function (sign) {
+      return sign.userAddress === address;
+    });
+    if (userVote) {
+      setAlreadyVoted(true);
+    } else {
+      setAlreadyVoted(false);
+    }
   }
+
+  useEffect(() => {
+    init();
+  });
 
   return (
     <>
-      {data.proposalStatus === "Active" && <div>
+      {data.proposalStatus === "Active" && !alreadyVoted && <div>
         <ul
           className="mx-auto max-w-2xl mt-5 text-lg font-medium   rounded-lg border   border-gray-600 text-white"
           style={{ borderColor: "#2d2d2d" }}

@@ -25,13 +25,10 @@ const CreateNFT = () => {
   }
 
   const handleCreateNFT = async (values) => {
-    console.log('values: ', values);
     let Provider = new ethers.providers.Web3Provider(window.ethereum);
     const Signer = await Provider.getSigner();
     const CONTRACT = new ethers.Contract(contractAddress.SoluNFT, Artifact.abi, Signer);
-    const mintNFT = await CONTRACT.safeMint(values.address);
-    console.log('mintNFT: ', mintNFT);
-    
+    const mintNFT = await CONTRACT.safeMint(values.address);    
   }
 
   useEffect(() => {

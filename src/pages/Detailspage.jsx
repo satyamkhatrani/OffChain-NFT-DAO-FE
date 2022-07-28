@@ -22,7 +22,6 @@ const Detailspage = () => {
       console.log('err: ', err);
     });
   }, [params]);
-  console.log("Proposal:", proposal);
 
   const currentTime = (new Date()).getTime() / 1000;
   const startTime = (new Date(proposal.startTime)).getTime() / 1000;

@@ -4,7 +4,6 @@ import { MdCheck } from "react-icons/md";
 
 const Card = (props) => {
   const { data } = props;
-  console.log('data: ', data);
 
   const currentTime = (new Date()).getTime() / 1000;
   const startTime = (new Date(data.startTime)).getTime() / 1000;

@@ -1,7 +1,9 @@
-import React from "react";
+import React, { useEffect } from "react";
 
 const Sidetabs = (props) => {
-  const { data} = props;
+  const { data } = props;
+  const totalVotes = data.voteCounts;
+  
   return (
     <div>
       <div>
@@ -56,57 +58,30 @@ const Sidetabs = (props) => {
           >
             Admins
           </li>
-          <li
+          {data.votingOptions.map((opts, index) => {
+            const percentage = opts.count * 100 / totalVotes;
+            console.log('percentage: ', percentage);
+            return (opts.option != '' && <li
+              key={index}
             className=" py-2 px-4 w-full border-b border-gray-600"
             style={{ borderColor: "#2d2d2d" }}
-          >
-            <div>I’d stake Cake.. 19 CAKEVO.. 95.09%</div>
+            >
+              <div className="flex flex-row justify-between">
+              <div>{opts.option.substring(0,10)+"..."}</div>
+              <div>{ opts.count} VP</div>
+                <div>{(totalVotes >0 &&opts.count >0) ? percentage : 0}%</div>
+                </div>
             <div>
               <progress
                 className="w-full rounded h-1 "
                 id="file"
-                value="95"
+                value={(totalVotes >0 &&opts.count >0) ? percentage : 0}
                 max="100"
               >
-                {" "}
-                95%{" "}
               </progress>
             </div>
-          </li>
-          <li
-            className=" py-2 px-4 w-full border-b border-gray-600"
-            style={{ borderColor: "#2d2d2d" }}
-          >
-            <div>I’d add liquidity.. 1CAKEVO.. 4.91%</div>
-            <div>
-              <progress
-                className="w-full rounded h-1 "
-                id="file"
-                value="4"
-                max="100"
-              >
-                {" "}
-                4%{" "}
-              </progress>
-            </div>
-          </li>
-          <li
-            className=" py-2 px-4 w-full border-b border-gray-600"
-            style={{ borderColor: "#2d2d2d" }}
-          >
-            <div>No carbo pool.. 0CAKEVO.. 0%</div>
-            <div>
-              <progress
-                className="w-full rounded h-1 "
-                id="file"
-                value="0"
-                max="100"
-              >
-                {" "}
-                0{" "}
-              </progress>
-            </div>
-          </li>
+          </li>)
+          })}
         </ul>
       </div>
     </div>

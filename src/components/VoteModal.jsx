@@ -57,9 +57,7 @@ const VoteModal = (props) => {
       },
       data: {signature:{...data, sign: sign}}
     };
-    console.log("PUT DATA", JSON.stringify(config.data));
     axios(config).then(function (resp) {
-      console.log('resp from Create Proposal: ', resp);
       navigate(`/Details/${proposalHash}`);
     }).catch(function (error) {
       console.log(error);
