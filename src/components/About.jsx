@@ -12,7 +12,7 @@ const About = () => {
           style={{ borderColor: "#2d2d2d" }}
         >
           <h1 className=" text-gray-50 text-lg font-semibold">Network</h1>
-          <p className="font-normal text-gray-400">Ethereum mainnet</p>
+          <p className="font-normal text-gray-400">Ethereum Rinkby</p>
 
           <h1 className=" text-gray-50 text-lg font-semibold mt-4">
             Proposal Validation
@@ -22,7 +22,7 @@ const About = () => {
           <h1 className=" text-gray-50 text-lg font-semibold mt-4">
             Voting Strategy
           </h1>
-          <p className="font-normal text-gray-400 ">Multichain</p>
+          <p className="font-normal text-gray-400 ">Singlechain</p>
 
           <h1 className=" text-gray-50 text-lg font-semibold mt-4">Plugins</h1>
           <p className="font-normal text-gray-400 ">poap</p>

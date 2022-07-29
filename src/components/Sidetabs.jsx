@@ -59,7 +59,7 @@ const Sidetabs = (props) => {
             Admins
           </li>
           {data.votingOptions.map((opts, index) => {
-            const percentage = opts.count * 100 / totalVotes;
+            const percentage = (opts.count * 100 / totalVotes).toFixed(2);
             console.log('percentage: ', percentage);
             return (opts.option != '' && <li
               key={index}
