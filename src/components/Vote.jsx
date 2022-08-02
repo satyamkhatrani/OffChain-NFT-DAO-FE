@@ -45,7 +45,7 @@ const Vote = (props) => {
             style={{ borderColor: "#2d2d2d" }}
           >
             {data.proposal.votingOptions.map((vote, index) => (
-              vote.option != '' && <button
+              vote.option !== '' && <button
                 key={index+""}
                 className="text-white ml-5 mt-5 mx-auto font-bold w-11/12  py-2 rounded-full border"
                 style={{
