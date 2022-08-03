@@ -14,13 +14,14 @@ const DepositModal = (props) => {
   const [name, setName] = useState("Ether");
   const [symbol, setSymbol] = useState("ETH");
   const [depositAmt, setDepositAmt] = useState();
+  const [isError, setIsError] = useState(false);
 
   let Contract, treasuryContract;
   const init = async () => {
     const provider = new ethers.providers.Web3Provider(window.ethereum);
     const signer = await provider.getSigner();
     treasuryContract = new ethers.Contract(
-      contractAddress.NFTDeposit,
+      contractAddress.Treasury,
       Treasury,
       signer
     );
@@ -49,23 +50,31 @@ const DepositModal = (props) => {
   const depositERC20 = async () => {
     const allowance = await Contract.allowance(
       address,
-      contractAddress.NFTDeposit
+      contractAddress.Treasury
     );
     const amt = ethers.utils.parseEther(depositAmt);
-    const allow = await Contract.approve(contractAddress.NFTDeposit, amt);
+    const allow = await Contract.approve(contractAddress.Treasury, amt);
+    await allow.wait();
     const deposit = await treasuryContract.depositToken(amt);
+    setShowModal(false);
     console.log("deposit: ", deposit);
   };
 
   const depositNFT = async () => {
-    await Contract.setApprovalForAll(contractAddress.NFTDeposit, true);
+    const allow = await Contract.setApprovalForAll(
+      contractAddress.Treasury,
+      true
+    );
+    await allow.wait();
     await treasuryContract.depositNFT(depositAmt);
+    setShowModal(false);
   };
 
   const depositETH = async () => {
     const amt = ethers.utils.parseEther(depositAmt);
     let tx = await treasuryContract.depositEth(amt, { value: amt });
     console.log(tx);
+    setShowModal(false);
   };
 
   return (
@@ -99,16 +108,32 @@ const DepositModal = (props) => {
                       id="amount"
                       name="amount"
                       value={depositAmt}
+                      required
                       onChange={(e) => {
+                        setIsError(false);
                         setDepositAmt(e.target.value);
                       }}
-                      className="bg-transparent border mx-auto max-w-2xl border-gray-300 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5  border-gray-600 placeholder-gray-400  focus:ring-blue-500 focus:border-blue-500 text-white"
+                      className="bg-transparent border mx-auto max-w-2xl border-gray-300 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5  border-gray-600 placeholder-gray-400  text-white"
                       placeholder={
                         data.name === "NFT"
                           ? "tokenId that you want to deposit"
                           : "Amount that you want to Deposit"
                       }
                     />
+                    {isError && (
+                      <span>
+                        <label
+                          style={{
+                            fontSize: "small",
+                            fontWeight: "400",
+                            color: "#ff0000",
+                            paddingLeft: 5,
+                          }}
+                        >
+                          this field is required
+                        </label>
+                      </span>
+                    )}
                   </div>
                 </div>
               </div>
@@ -126,7 +151,9 @@ const DepositModal = (props) => {
                   className={`bg-blue-600 text-white w-40 border border-gray-600 font-bold text-sm px-6 py-3 rounded-full shadow hover:shadow-lg outline-none focus:outline-none mr-1 mb-1`}
                   type="button"
                   onClick={() => {
-                    data.name === "ERC20"
+                    depositAmt === undefined
+                      ? setIsError(true)
+                      : data.name === "ERC20"
                       ? depositERC20()
                       : data.name === "NFT"
                       ? depositNFT()
