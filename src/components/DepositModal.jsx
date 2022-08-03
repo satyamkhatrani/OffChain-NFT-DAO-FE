@@ -49,26 +49,36 @@ const DepositModal = (props) => {
 
   const depositERC20 = async () => {
     let allowance = await Contract.allowance(address, contractAddress.Treasury);
-    if(ethers.utils.formatEther(allowance) == 0){
+    if (ethers.utils.formatEther(allowance) > 0) {
       const amt = ethers.utils.parseEther(depositAmt);
-      const allow = await Contract.approve(contractAddress.Treasury, "115792089237316195423570985008687907853269984665640564039457584007913129639935");
-      await allow.wait();
       await treasuryContract.depositToken(amt);
       setShowModal(false);
-    }else{
+    } else {
       const amt = ethers.utils.parseEther(depositAmt);
+      const allow = await Contract.approve(
+        contractAddress.Treasury,
+        "115792089237316195423570985008687907853269984665640564039457584007913129639935"
+      );
+      await allow.wait();
       await treasuryContract.depositToken(amt);
       setShowModal(false);
     }
   };
 
   const depositNFT = async () => {
-    let isApprovedForAll = await Contract.isApprovedForAll(address, contractAddress.Treasury)
-    console.log('%c 🍮 isApprovedForAll: ', 'font-size:20px;background-color: #E41A6A;color:#fff;', isApprovedForAll);
-    if(isApprovedForAll){
+    let isApprovedForAll = await Contract.isApprovedForAll(
+      address,
+      contractAddress.Treasury
+    );
+    console.log(
+      "%c 🍮 isApprovedForAll: ",
+      "font-size:20px;background-color: #E41A6A;color:#fff;",
+      isApprovedForAll
+    );
+    if (isApprovedForAll) {
       await treasuryContract.depositNFT(depositAmt);
       setShowModal(false);
-    }else{
+    } else {
       const allow = await Contract.setApprovalForAll(
         contractAddress.Treasury,
         true
@@ -77,7 +87,6 @@ const DepositModal = (props) => {
       await treasuryContract.depositNFT(depositAmt);
       setShowModal(false);
     }
-   
   };
 
   const depositETH = async () => {

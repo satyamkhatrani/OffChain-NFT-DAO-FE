@@ -28,9 +28,6 @@ const Details = (props) => {
           <p className=" font-medium text-gray-400 ml-2">
             Proposal by {data.proposal.userAddress}
           </p>
-          {/* <button className=" hover:bg-blue-700 text-gray-400 font-bold  px-1 rounded-full">
-            Core
-          </button> */}
         </div>
         <div>
           <p className=" font-medium text-xl text-gray-400 mt-5">
