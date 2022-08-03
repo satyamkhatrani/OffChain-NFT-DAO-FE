@@ -4,7 +4,7 @@ import { NavLink } from "react-router-dom";
 import { useAccount } from "wagmi";
 import { ethers } from "ethers";
 import Artifact from "../contracts/SoluNFT.json";
-import contractAddress from '../contracts/contract-address.json';
+import contractAddress from "../contracts/contract-address.json";
 
 export const Sidebar = () => {
   const { address, isConnected } = useAccount();
@@ -14,10 +14,14 @@ export const Sidebar = () => {
     if (isConnected) {
       let Provider = new ethers.providers.Web3Provider(window.ethereum);
       const Signer = await Provider.getSigner();
-      const CONTRACT = new ethers.Contract(contractAddress.SoluNFT, Artifact.abi, Signer);
+      const CONTRACT = new ethers.Contract(
+        contractAddress.SoluNFT,
+        Artifact.abi,
+        Signer
+      );
       const adminAddress = await CONTRACT.owner();
       if (address === adminAddress) {
-        setIsAdmin(true); 
+        setIsAdmin(true);
       } else {
         setIsAdmin(false);
       }
@@ -26,7 +30,7 @@ export const Sidebar = () => {
 
   useEffect(() => {
     checkAdmin();
-  },[address]);
+  }, [address]);
 
   return (
     <div
@@ -41,7 +45,12 @@ export const Sidebar = () => {
       <h5 className="mb-2 text-2xl mt-4 font-bold text-center text-white flex flex-row justify-center">
         SoluLab DAO
         <MdOutlineVerified
-          style={{ color:'green', fontSize: "20px", alignSelf: "center", marginLeft: "5px" }}
+          style={{
+            color: "green",
+            fontSize: "20px",
+            alignSelf: "center",
+            marginLeft: "5px",
+          }}
         />
       </h5>
       <p className="font-normal text-gray-400 text-center">20k members</p>

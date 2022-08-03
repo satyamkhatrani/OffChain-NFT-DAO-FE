@@ -17,7 +17,7 @@ const Asset = (props) => {
 
   useEffect(() => {
     init();
-  }, [address]);
+  }, []);
 
   const init = async () => {
     const provider = new ethers.providers.Web3Provider(window.ethereum);

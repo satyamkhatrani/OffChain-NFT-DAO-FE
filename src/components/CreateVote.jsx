@@ -11,12 +11,12 @@ import { useLocation, useNavigate } from "react-router-dom";
 import { useAccount } from "wagmi";
 import { ConnectButton } from "@rainbow-me/rainbowkit";
 import { ethers } from "ethers";
-import { BASE_URL } from '../constants/apiBase';
+import { BASE_URL } from "../constants/apiBase";
 import axios from "axios";
 
 const CreateVote = () => {
   const date = new Date();
-  
+
   const { address, isConnected } = useAccount();
 
   const location = useLocation();
@@ -25,13 +25,12 @@ const CreateVote = () => {
   const [endDate, setEndDate] = useState(
     new Date(date.setDate(date.getDate() + 5))
   );
-  
 
   const validationSchema = Yup.object({
     choice1: Yup.string().required(CHOICE1_REQUIRED),
     choice2: Yup.string().required(CHOICE2_REQUIRED),
   });
-  
+
   const navigate = useNavigate();
   const handleSubmit = async (data) => {
     const Provider = new ethers.providers.Web3Provider(window.ethereum);
@@ -47,31 +46,33 @@ const CreateVote = () => {
       votingOptions: [
         { index: 0, option: data.choice1 },
         { index: 1, option: data.choice2 },
-        { index: 2, option: data.choice3 }
-      ]
+        { index: 2, option: data.choice3 },
+      ],
     };
 
     const provider = new ethers.providers.Web3Provider(window.ethereum);
     const signer = provider.getSigner();
     const sign = await signer.signMessage(JSON.stringify(proposal));
-    
+
     var config = {
-      method: 'post',
-      url: BASE_URL + 'proposal',
+      method: "post",
+      url: BASE_URL + "proposal",
       headers: {
-        'Content-Type': 'application/json'
+        "Content-Type": "application/json",
       },
-      data: { ...proposal, proposalSignature: sign }
+      data: { ...proposal, proposalSignature: sign },
     };
 
-    axios(config).then(function (resp) {
-      if (resp.data.status) {
-        navigate('/');
-      }
-    }).catch(function (error) {
-      console.log(error);
-    });
-  }
+    axios(config)
+      .then(function (resp) {
+        if (resp.data.status) {
+          navigate("/");
+        }
+      })
+      .catch(function (error) {
+        console.log(error);
+      });
+  };
 
   return (
     <div>
@@ -226,15 +227,18 @@ const CreateVote = () => {
                   </li>
                 </ul>
                 <div className="mx-auto block max-w-2xl mt-5">
-                  { isConnected ?
-                  <button
-                    type="submit"
-                    className="mt-5 mx-14 px-4 py-2 rounded-lg border shadow-md hover:bg-gray-100 text-white hover:text-black"
-                  >
-                    Create Proposal
-                  </button> : <div className="block mt-10 mx-auto max-w-2xl text-sm font-normal">
-                  <ConnectButton />
-                </div>}
+                  {isConnected ? (
+                    <button
+                      type="submit"
+                      className="mt-5 mx-14 px-4 py-2 rounded-lg border shadow-md hover:bg-gray-100 text-white hover:text-black"
+                    >
+                      Create Proposal
+                    </button>
+                  ) : (
+                    <div className="block mt-10 mx-auto max-w-2xl text-sm font-normal">
+                      <ConnectButton />
+                    </div>
+                  )}
                 </div>
               </form>
             )}

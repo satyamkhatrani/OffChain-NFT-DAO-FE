@@ -5,8 +5,8 @@ import { ADDRESS_REQUIRED } from "../constants/errorConstants";
 import { useAccount } from "wagmi";
 import { ConnectButton } from "@rainbow-me/rainbowkit";
 import { ethers } from "ethers";
-import contractAddress from '../contracts/contract-address.json';
-import Artifact from '../contracts/SoluNFT.json';
+import contractAddress from "../contracts/contract-address.json";
+import Artifact from "../contracts/SoluNFT.json";
 
 const CreateNFT = () => {
   const { address, isConnected } = useAccount();
@@ -15,32 +15,40 @@ const CreateNFT = () => {
   const init = async () => {
     let Provider = new ethers.providers.Web3Provider(window.ethereum);
     const Signer = await Provider.getSigner();
-    const CONTRACT = new ethers.Contract(contractAddress.SoluNFT, Artifact.abi, Signer);
+    const CONTRACT = new ethers.Contract(
+      contractAddress.SoluNFT,
+      Artifact.abi,
+      Signer
+    );
     const adminAddress = await CONTRACT.owner();
     if (address === adminAddress) {
       setIsAdmin(true);
     } else {
       setIsAdmin(false);
     }
-  }
+  };
 
   const handleCreateNFT = async (values) => {
     let Provider = new ethers.providers.Web3Provider(window.ethereum);
     const Signer = await Provider.getSigner();
-    const CONTRACT = new ethers.Contract(contractAddress.SoluNFT, Artifact.abi, Signer);
-    const mintNFT = await CONTRACT.safeMint(values.address);    
-  }
+    const CONTRACT = new ethers.Contract(
+      contractAddress.SoluNFT,
+      Artifact.abi,
+      Signer
+    );
+    await CONTRACT.safeMint(values.address);
+  };
 
   useEffect(() => {
     init();
-  }, [address]);
-  
+  }, []);
+
   const validationSchema = Yup.object({
     address: Yup.string().required(ADDRESS_REQUIRED),
   });
 
-  return (
-    isAdmin ? <>
+  return isAdmin ? (
+    <>
       <div className="mx-auto block max-w-2xl px-5">
         <div
           className=" mt-5 p-6 mb-10 rounded-lg border shadow-md hover:bg-gray-100"
@@ -99,7 +107,9 @@ const CreateNFT = () => {
           </Formik>
         </div>
       </div>
-    </> : <>
+    </>
+  ) : (
+    <>
       <div className="mx-auto mt-5 max-w-2xl text-2xl text-gray-50">
         <h1>Treasury</h1>
       </div>

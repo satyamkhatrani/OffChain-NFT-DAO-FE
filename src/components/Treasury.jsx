@@ -25,13 +25,10 @@ const Treasury = () => {
     );
     const nft = new ethers.Contract(contractAddress.SoluNFT, NFT.abi, signer);
     const balERC20 = await erc20.balanceOf(contractAddress.Treasury);
-    console.log("balERC20: ", balERC20);
     const symERC20 = await erc20.symbol();
     const balNFT = await nft.balanceOf(contractAddress.Treasury);
-    console.log("balNFT: ", balNFT);
     const symNFT = await nft.symbol();
     const balETH = await provider.getBalance(contractAddress.Treasury);
-    console.log("balETH: ", balETH);
     const data = [
       {
         image:

@@ -4,17 +4,20 @@ import Card from "../components/Card";
 import { Sidebar } from "../components/Sidebar";
 import Heading from "../components/Heading.jsx";
 import axios from "axios";
-import {BASE_URL} from '../constants/apiBase.js';
+import { BASE_URL } from "../constants/apiBase.js";
 
 const Home = () => {
   const [proposals, setProposals] = useState([]);
 
   useEffect(() => {
-    axios.get(BASE_URL + 'proposal').then(res => {
-      setProposals(res.data.data);
-    }).catch(err => {
-      console.log('ERROR',err);
-    });
+    axios
+      .get(BASE_URL + "proposal")
+      .then((res) => {
+        setProposals(res.data.data);
+      })
+      .catch((err) => {
+        console.log("ERROR", err);
+      });
   }, []);
 
   return (
@@ -30,7 +33,7 @@ const Home = () => {
         >
           <Heading />
           {proposals.map((proposal, index) => {
-            return (<Card key={index+''} data={proposal} />)
+            return <Card key={index + ""} data={proposal} />;
           })}
         </div>
       </div>

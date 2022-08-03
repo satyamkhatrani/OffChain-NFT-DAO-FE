@@ -1,4 +1,4 @@
-import { ethers} from "ethers";
+import { ethers } from "ethers";
 import { useEffect, useState } from "react";
 import { useAccount } from "wagmi";
 import contractAddress from "../contracts/contract-address.json";
@@ -21,10 +21,14 @@ const VoteModal = (props) => {
       const snapshot = await Provider.getBlockNumber();
       setSnapshot(snapshot);
       const Signer = await Provider.getSigner();
-      const CONTRACT = new ethers.Contract(contractAddress.SoluNFT, Artifact.abi, Signer);
+      const CONTRACT = new ethers.Contract(
+        contractAddress.SoluNFT,
+        Artifact.abi,
+        Signer
+      );
       const balance = await CONTRACT.balanceOf(address);
       let tokens = [];
-      for (var i = 0; i < balance; i++){
+      for (var i = 0; i < balance; i++) {
         const id = await CONTRACT.tokenOfOwnerByIndex(address, i);
         tokens.push(id.toNumber());
       }
@@ -36,36 +40,37 @@ const VoteModal = (props) => {
   useEffect(() => {
     init();
   });
-  
+
   const handleSubmit = async () => {
-    //write submit code here
     const data = {
       userAddress: address,
       voteCount: voteCount,
-      voteFor:voteFor.index,
-      tokenId: tokenId
+      voteFor: voteFor.index,
+      tokenId: tokenId,
     };
     const provider = new ethers.providers.Web3Provider(window.ethereum);
     const signer = provider.getSigner();
     const sign = await signer.signMessage(JSON.stringify(data));
 
     var config = {
-      method: 'put',
+      method: "put",
       url: `${BASE_URL}proposal/${proposalHash}`,
       headers: {
-        'Content-Type': 'application/json'
+        "Content-Type": "application/json",
       },
-      data: {signature:{...data, sign: sign}}
+      data: { signature: { ...data, sign: sign } },
     };
-    axios(config).then(function (resp) {
-      navigate(`/Details/${proposalHash}`);
-    }).catch(function (error) {
-      console.log(error);
-    });
+    axios(config)
+      .then(function (resp) {
+        navigate(`/Details/${proposalHash}`);
+      })
+      .catch(function (error) {
+        console.log(error);
+      });
 
     setShowModal(false);
   };
-  
+
   return (
     <div className="flex justify-center items-center overflow-x-hidden overflow-y-auto fixed inset-0 z-50 outline-none focus:outline-none">
       <div className="relative w-auto my-6 mx-auto max-w-3xl">
@@ -82,13 +87,23 @@ const VoteModal = (props) => {
                 </div>
                 <div className="w-full flex justify-between  mb-2">
                   <span className="text-base text-gray-300">Snapshot</span>
-                  {snapshot >0 ? <span className="text-base">{`${parseInt(snapshot).toLocaleString()}`}</span> : <div className="loader" />}
+                  {snapshot > 0 ? (
+                    <span className="text-base">{`${parseInt(
+                      snapshot
+                    ).toLocaleString()}`}</span>
+                  ) : (
+                    <div className="loader" />
+                  )}
                 </div>
                 <div className="w-full flex justify-between">
                   <span className="text-base text-gray-300">
                     Your Voting Power
                   </span>
-                  {voteCount >= 0 ? <span className="text-base">{`${voteCount} VP`}</span> : <div className="loader" />}
+                  {voteCount >= 0 ? (
+                    <span className="text-base">{`${voteCount} VP`}</span>
+                  ) : (
+                    <div className="loader" />
+                  )}
                 </div>
               </div>
             </div>
@@ -101,7 +116,9 @@ const VoteModal = (props) => {
                 Cancel
               </button>
               <button
-                className={`${voteCount > 0 ? 'bg-blue-600' : 'bg-slate-700'} text-white w-40 border border-gray-600 font-bold text-sm px-6 py-3 rounded-full shadow hover:shadow-lg outline-none focus:outline-none mr-1 mb-1`}
+                className={`${
+                  voteCount > 0 ? "bg-blue-600" : "bg-slate-700"
+                } text-white w-40 border border-gray-600 font-bold text-sm px-6 py-3 rounded-full shadow hover:shadow-lg outline-none focus:outline-none mr-1 mb-1`}
                 type="button"
                 onClick={handleSubmit}
                 disabled={voteCount <= 0}

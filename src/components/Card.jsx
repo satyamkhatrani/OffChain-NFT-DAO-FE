@@ -5,10 +5,15 @@ import { MdCheck } from "react-icons/md";
 const Card = (props) => {
   const { data } = props;
 
-  const currentTime = (new Date()).getTime() / 1000;
-  const startTime = (new Date(data.startTime)).getTime() / 1000;
-  const endTime = (new Date(data.endTime)).getTime() / 1000;
-  const proposalStatus = (currentTime < startTime) ? "Pending" : (currentTime > startTime && endTime > currentTime) ? "Active" : "Closed";  
+  const currentTime = new Date().getTime() / 1000;
+  const startTime = new Date(data.startTime).getTime() / 1000;
+  const endTime = new Date(data.endTime).getTime() / 1000;
+  const proposalStatus =
+    currentTime < startTime
+      ? "Pending"
+      : currentTime > startTime && endTime > currentTime
+      ? "Active"
+      : "Closed";
   function countdown(s) {
     const d = Math.floor(s / (3600 * 24));
     s -= d * 3600 * 24;
@@ -17,13 +22,23 @@ const Card = (props) => {
     const m = Math.floor(s / 60);
     s -= m * 60;
     const tmp = [];
-    (d) && tmp.push(d + 'd');
-    (d || h) && tmp.push(h + 'h');
-    (!d || m) && tmp.push(m + 'm');
-    return tmp.join(' ');
+    d && tmp.push(d + "d");
+    (d || h) && tmp.push(h + "h");
+    (!d || m) && tmp.push(m + "m");
+    return tmp.join(" ");
   }
-  const time = proposalStatus === "Pending" ? countdown(startTime - currentTime) : proposalStatus === "Active" ? countdown(endTime - currentTime) : '';
-  const timeRemaining = proposalStatus === "Pending" ? `Started in ${time}` : proposalStatus === "Active" ? `Ended in ${time}` : 'Ended';
+  const time =
+    proposalStatus === "Pending"
+      ? countdown(startTime - currentTime)
+      : proposalStatus === "Active"
+      ? countdown(endTime - currentTime)
+      : "";
+  const timeRemaining =
+    proposalStatus === "Pending"
+      ? `Started in ${time}`
+      : proposalStatus === "Active"
+      ? `Ended in ${time}`
+      : "Ended";
 
   return (
     <div>
@@ -51,7 +66,11 @@ const Card = (props) => {
             </div>
             <button
               className={`${
-                proposalStatus === "Active" ? "bg-green-500" : proposalStatus==="Closed" ? "bg-violet-600" : "bg-gray-600"
+                proposalStatus === "Active"
+                  ? "bg-green-500"
+                  : proposalStatus === "Closed"
+                  ? "bg-violet-600"
+                  : "bg-gray-600"
               } text-white font-bold  px-3 rounded-full  h-fit`}
             >
               {proposalStatus}
@@ -60,14 +79,23 @@ const Card = (props) => {
           <h5 className="mb-2 text-2xl font-bold tracking-tight  text-white group-hover:text-gray-400">
             {data.proposalName}
           </h5>
-          <p className="font-normal text-gray-400">{`${data.proposalDesc.substring(0, 140)}...`}</p>
+          <p className="font-normal text-gray-400">{`${data.proposalDesc.substring(
+            0,
+            140
+          )}...`}</p>
           <div className="flex flex-row">
-            {proposalStatus === "Closed" && <MdCheck style={{
-              color: 'green', fontSize: "20px", alignSelf: "center",
-              margin: "5px"
-            }} />}
+            {proposalStatus === "Closed" && (
+              <MdCheck
+                style={{
+                  color: "green",
+                  fontSize: "20px",
+                  alignSelf: "center",
+                  margin: "5px",
+                }}
+              />
+            )}
             <p className="font-normal text-gray-400">{timeRemaining}</p>
-            </div>
+          </div>
         </div>
       </NavLink>
     </div>

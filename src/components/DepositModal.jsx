@@ -48,16 +48,12 @@ const DepositModal = (props) => {
   });
 
   const depositERC20 = async () => {
-    const allowance = await Contract.allowance(
-      address,
-      contractAddress.Treasury
-    );
+    await Contract.allowance(address, contractAddress.Treasury);
     const amt = ethers.utils.parseEther(depositAmt);
     const allow = await Contract.approve(contractAddress.Treasury, amt);
     await allow.wait();
-    const deposit = await treasuryContract.depositToken(amt);
+    await treasuryContract.depositToken(amt);
     setShowModal(false);
-    console.log("deposit: ", deposit);
   };
 
   const depositNFT = async () => {

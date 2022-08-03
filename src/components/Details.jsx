@@ -6,12 +6,18 @@ const Details = (props) => {
     <div>
       <div className="mx-auto max-w-2xl text-justify p-3">
         <div className=" mt-5  text-3xl font-bold text-gray-50">
-          <h1>{ data.proposal.proposalName}</h1>
+          <h1>{data.proposal.proposalName}</h1>
         </div>
         <div className="mt-5 flex flex-row">
-          <button className={`${
-                data.proposalStatus === "Active" ? "bg-green-500" : data.proposalStatus==="Closed" ? "bg-violet-600" : "bg-gray-600"
-              } hover:bg-blue-700 text-white font-bold  px-2 rounded-full`}>
+          <button
+            className={`${
+              data.proposalStatus === "Active"
+                ? "bg-green-500"
+                : data.proposalStatus === "Closed"
+                ? "bg-violet-600"
+                : "bg-gray-600"
+            } hover:bg-blue-700 text-white font-bold  px-2 rounded-full`}
+          >
             {data.proposalStatus}
           </button>
           <img

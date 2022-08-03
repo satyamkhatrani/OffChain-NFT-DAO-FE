@@ -22,7 +22,11 @@ export const Create = () => {
   const init = async () => {
     const Provider = new ethers.providers.Web3Provider(window.ethereum);
     const Signer = await Provider.getSigner();
-    const CONTRACT = new ethers.Contract(contractAddress.SoluNFT, SoluNFT.abi, Signer);
+    const CONTRACT = new ethers.Contract(
+      contractAddress.SoluNFT,
+      SoluNFT.abi,
+      Signer
+    );
     const bal = await CONTRACT.balanceOf(address);
     setBalance(bal.toNumber());
   };
@@ -32,19 +36,21 @@ export const Create = () => {
   });
 
   const handleSubmit = (values) => {
-    navigate("/create-vote",{state:values});
+    navigate("/create-vote", { state: values });
   };
 
   return (
     <>
-      {balance <=0 && <div
-        className="md:mx-auto mt-5 block p-6 m-2 max-w-2xl rounded-lg border shadow-md hover:bg-gray-100 mx-5"
-        style={{ borderColor: "#2d2d2d" }}
-      >
-        <p className="font-normal text-red-400">
-          You need to be an owner of NFT in order to submit a proposal.
-        </p>
-      </div>}
+      {balance <= 0 && (
+        <div
+          className="md:mx-auto mt-5 block p-6 m-2 max-w-2xl rounded-lg border shadow-md hover:bg-gray-100 mx-5"
+          style={{ borderColor: "#2d2d2d" }}
+        >
+          <p className="font-normal text-red-400">
+            You need to be an owner of NFT in order to submit a proposal.
+          </p>
+        </div>
+      )}
       <div className="px-5">
         <Formik
           initialValues={{
@@ -110,25 +116,31 @@ export const Create = () => {
                 className="bg-transparent border mx-auto max-w-2xl border-gray-300 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5  border-gray-600 placeholder-gray-400  focus:ring-blue-500 focus:border-blue-500 text-white"
                 placeholder="https://forum.balancer.fi/proposal"
               />
-              {isConnected ? (balance > 0) ? (
-                <div className="mx-auto block max-w-2xl mt-5">
-                  <button
-                    type="submit"
-                    className="mt-5 px-4 py-2 rounded-lg border shadow-md hover:bg-gray-100 text-white hover:text-black"
-                  >
-                    Next
-                  </button>
-                </div>
-              ) : (<div className="mx-auto block max-w-2xl mt-5">
-                  <button
-                    className="mt-5 px-4 py-2 rounded-lg shadow-md bg-gray-600 text-gray-800"
-                    disabled
-                  >
-                    Require min. 1 NFT
-                  </button>
-                </div>) : <div className="block mt-10 mx-auto max-w-2xl text-sm font-normal">
+              {isConnected ? (
+                balance > 0 ? (
+                  <div className="mx-auto block max-w-2xl mt-5">
+                    <button
+                      type="submit"
+                      className="mt-5 px-4 py-2 rounded-lg border shadow-md hover:bg-gray-100 text-white hover:text-black"
+                    >
+                      Next
+                    </button>
+                  </div>
+                ) : (
+                  <div className="mx-auto block max-w-2xl mt-5">
+                    <button
+                      className="mt-5 px-4 py-2 rounded-lg shadow-md bg-gray-600 text-gray-800"
+                      disabled
+                    >
+                      Require min. 1 NFT
+                    </button>
+                  </div>
+                )
+              ) : (
+                <div className="block mt-10 mx-auto max-w-2xl text-sm font-normal">
                   <ConnectButton />
-                </div>}
+                </div>
+              )}
             </form>
           )}
         </Formik>
