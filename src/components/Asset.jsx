@@ -108,7 +108,7 @@ const Asset = (props) => {
         <DepositModal data={data} setShowModal={setOpenDepositModal} />
       )}
       {openWithdrawModal && (
-        <WithdrawModal setShowModal={setOpenWithdrawModal} />
+        <WithdrawModal data={data} setShowModal={setOpenWithdrawModal} />
       )}
     </li>
   );
