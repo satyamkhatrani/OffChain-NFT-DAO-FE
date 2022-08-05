@@ -41,7 +41,7 @@ const CreateNFT = () => {
 
   useEffect(() => {
     init();
-  }, []);
+  });
 
   const validationSchema = Yup.object({
     address: Yup.string().required(ADDRESS_REQUIRED),

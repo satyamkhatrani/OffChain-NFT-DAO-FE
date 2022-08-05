@@ -5,12 +5,14 @@ import ERC20 from "../contracts/ERC20.json";
 import NFT from "../contracts/SoluNFT.json";
 import Treasury from "../contracts/Treasury.json";
 import contractAddress from "../contracts/contract-address.json";
+import Loader from "./Loader";
 
 const DepositModal = (props) => {
   const { data, setShowModal } = props;
 
   const { address } = useAccount();
   const [loading, setLoading] = useState(true);
+  const [txLoading, setTxLoading] = useState(false);
   const [name, setName] = useState("Ether");
   const [symbol, setSymbol] = useState("ETH");
   const [depositAmt, setDepositAmt] = useState();
@@ -48,11 +50,11 @@ const DepositModal = (props) => {
   });
 
   const depositERC20 = async () => {
+    setTxLoading(true);
     let allowance = await Contract.allowance(address, contractAddress.Treasury);
     if (ethers.utils.formatEther(allowance) > 0) {
       const amt = ethers.utils.parseEther(depositAmt);
       await treasuryContract.depositToken(amt);
-      setShowModal(false);
     } else {
       const amt = ethers.utils.parseEther(depositAmt);
       const allow = await Contract.approve(
@@ -61,11 +63,13 @@ const DepositModal = (props) => {
       );
       await allow.wait();
       await treasuryContract.depositToken(amt);
-      setShowModal(false);
     }
+    setTxLoading(false);
+    setShowModal(false);
   };
 
   const depositNFT = async () => {
+    setTxLoading(true);
     let isApprovedForAll = await Contract.isApprovedForAll(
       address,
       contractAddress.Treasury
@@ -87,12 +91,15 @@ const DepositModal = (props) => {
       await treasuryContract.depositNFT(depositAmt);
       setShowModal(false);
     }
+    setTxLoading(false);
   };
 
   const depositETH = async () => {
+    setTxLoading(true);
     const amt = ethers.utils.parseEther(depositAmt);
     let tx = await treasuryContract.depositEth(amt, { value: amt });
     console.log(tx);
+    setTxLoading(false);
     setShowModal(false);
   };
 
@@ -183,6 +190,7 @@ const DepositModal = (props) => {
                 </button>
               </div>
             </div>
+            {txLoading && <Loader />}
           </div>
         )}
       </div>

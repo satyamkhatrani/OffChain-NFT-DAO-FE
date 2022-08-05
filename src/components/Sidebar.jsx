@@ -30,7 +30,7 @@ export const Sidebar = () => {
 
   useEffect(() => {
     checkAdmin();
-  }, [address]);
+  });
 
   return (
     <div
@@ -42,7 +42,7 @@ export const Sidebar = () => {
         className="w-12 mx-auto md:max-w-full h-auto rounded-full"
         alt=""
       />
-      <h5 className="mb-2 text-2xl mt-4 font-bold text-center text-white flex flex-row justify-center">
+      <h5 className="mb-8 text-2xl mt-4 font-bold text-center text-white flex flex-row justify-center">
         SoluLab DAO
         <MdOutlineVerified
           style={{
@@ -53,14 +53,6 @@ export const Sidebar = () => {
           }}
         />
       </h5>
-      <p className="font-normal text-gray-400 text-center">20k members</p>
-      <a
-        href="#"
-        className="inline-block flex m-4 flex-row justify-center text-sm px-4 py-2 leading-none border rounded-full text-white border-white hover:border-transparent hover:text-teal-500 hover:bg-white mt-4 "
-      >
-        Join
-      </a>
-
       <ul className="space-y-2 sidebar-nav-links">
         <li>
           <NavLink
