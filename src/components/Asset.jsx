@@ -17,7 +17,7 @@ const Asset = (props) => {
 
   useEffect(() => {
     init();
-  }, []);
+  }, [address]);
 
   const init = async () => {
     const provider = new ethers.providers.Web3Provider(window.ethereum);
@@ -81,10 +81,10 @@ const Asset = (props) => {
         </div>
       </div>
       {isOpen && (
-        <div className="flex flex-row">
+        <div className="flex flex-row m-6">
           {isOwner && (
             <button
-              className="text-white ml-5 mt-5 mb-5 bg-blue-600 w-11/12  mx-auto font-bold  py-2 rounded-full border"
+              className="text-white bg-blue-600 w-11/12 mr-3 mx-auto font-bold  py-2 rounded-full border"
               style={{ borderColor: "#2d2d2d" }}
               onClick={() => {
                 setOpenWithdrawModal(true);
@@ -94,7 +94,7 @@ const Asset = (props) => {
             </button>
           )}
           <button
-            className="text-white ml-5 mt-5 mb-5 bg-blue-600 w-11/12  mx-auto font-bold  py-2 rounded-full border"
+            className="text-white bg-blue-600 w-11/12 ml-3 mx-auto font-bold  py-2 rounded-full border"
             style={{ borderColor: "#2d2d2d" }}
             onClick={() => {
               setOpenDepositModal(true);

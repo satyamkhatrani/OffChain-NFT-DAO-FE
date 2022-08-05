@@ -97,7 +97,11 @@ const Vote = (props) => {
               style={{ borderColor: "#2d2d2d" }}
             >
               <div className="flex flex-row">
-                <img src={""} className=" h-8 w-8 rounded-full mr-2" alt="" />{" "}
+                <img
+                  src={"https://mdbootstrap.com/img/new/standard/city/047.jpg"}
+                  className=" h-8 w-8 rounded-full mr-2"
+                  alt=""
+                />{" "}
                 {`${vSig.userAddress.substring(
                   0,
                   6

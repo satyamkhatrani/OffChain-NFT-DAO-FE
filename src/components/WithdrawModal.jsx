@@ -45,7 +45,7 @@ const WithdrawModal = (props) => {
 
   useEffect(() => {
     init();
-  });
+  }, [address]);
 
   const withdrawERC20 = async () => {
     const amt = ethers.utils.parseEther(depositAmt);

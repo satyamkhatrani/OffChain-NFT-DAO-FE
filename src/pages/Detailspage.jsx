@@ -46,7 +46,7 @@ const Detailspage = () => {
             <Details data={{ proposal, proposalStatus }} />
             <Vote data={{ proposal, proposalStatus }} />
           </div>
-          <div>
+          <div className="ml-5">
             <Sidetabs data={proposal} />
           </div>
         </div>
