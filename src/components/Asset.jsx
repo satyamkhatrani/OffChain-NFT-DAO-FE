@@ -15,10 +15,6 @@ const Asset = (props) => {
   const [openDepositModal, setOpenDepositModal] = useState(false);
   const [openWithdrawModal, setOpenWithdrawModal] = useState(false);
 
-  useEffect(() => {
-    init();
-  }, [address]);
-
   const init = async () => {
     const provider = new ethers.providers.Web3Provider(window.ethereum);
     const signer = await provider.getSigner();
@@ -34,6 +30,10 @@ const Asset = (props) => {
       setIsOwner(false);
     }
   };
+
+  useEffect(() => {
+    init();
+  }, [address]);
 
   return (
     <li
